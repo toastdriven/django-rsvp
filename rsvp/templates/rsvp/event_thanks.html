@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Thanks For RSVPing To {{ event.title }}{% endblock %}
+
+{% block content %}
+    <h1>Thanks For RSVPing To {{ event.title }}</h1>
+    
+    <p>
+        You've been placed on the 
+        <a href="{% url rsvp_event_view event.slug %}">"{{ guest.get_attending_status_display }}" 
+        list</a>.
+    </p>
+{% endblock %}

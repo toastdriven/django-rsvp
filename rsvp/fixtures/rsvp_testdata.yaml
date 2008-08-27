@@ -1,0 +1,35 @@
+- model: rsvp.Event
+  pk: 1
+  fields:
+      title: A Test Event
+      slug: a-test-event
+      description: What fun we will have.
+      date_of_event: 2008-08-27 08:30:00
+      email_subject: Come to my test event!
+      email_message: We will have fun.
+
+- model: rsvp.Guest
+  pk: 1
+  fields:
+      event: 1
+      email: guest1@example.com
+      name: Guest1
+      attending_status: yes
+      number_of_guests: 0
+
+- model: rsvp.Guest
+  pk: 2
+  fields:
+      event: 1
+      email: guest2@example.com
+      name: Guest2
+      attending_status: no_rsvp
+
+- model: rsvp.Guest
+  pk: 3
+  fields:
+      event: 1
+      email: guest3@example.com
+      name: Guest3
+      attending_status: no_rsvp
+      

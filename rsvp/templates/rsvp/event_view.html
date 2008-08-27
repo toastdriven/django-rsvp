@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Viewing Event {{ event.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ event.title }}</h1>
+    
+    <p>Date: {{ event.date_of_event|date:"F j, Y @ f a" }}</p>
+    
+    <p>{{ event.description|linebreaksbr }}</p>
+    
+    <h2>Event Details</h2>
+    
+    {% if event.hosted_by %}
+        <p>
+            <strong>Hosted By:</strong>
+            {{ event.hosted_by }}
+        </p>
+    {% endif %}
+    
+    {% if event.street_address %}
+        <p>
+            <strong>Address:</strong><br>
+            {{ event.street_address }}<br>
+            {{ event.city }}, {{ event.state }} {{ event.zip_code }}<br>
+            {{ event.telephone }}
+        </p>
+    {% endif %}
+    
+    <h2>Will You Be Attending?</h2>
+    
+    <form method="post" action=".">
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" value="RSVP">
+                </td>
+            </tr>
+        </table>
+    </form>
+    
+    <h2>Guest List</h2>
+    
+    {% if event.guests_attending.count %}
+        <h3>Attending ({{ event.guests_attending.count }} guest{{ event.guests_attending.count|pluralize }})</h3>
+    
+        <ul>
+            {% for guest in event.guests_attending %}
+                <li>
+                    {{ guest.name }}
+                    {% if guest.number_of_guests %}
+                        + {{ guest.number_of_guests }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% if event.guests_not_attending.count %}
+        <h3>Not Attending ({{ event.guests_not_attending.count }} guest{{ event.guests_not_attending.count|pluralize }})</h3>
+    
+        <ul>
+            {% for guest in event.guests_not_attending %}
+                {% if guest.name %}
+                    <li>
+                        {{ guest.name }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% if event.guests_may_attend.count %}
+        <h3>May Attend ({{ event.guests_may_attend.count }} guest{{ event.guests_may_attend.count|pluralize }})</h3>
+    
+        <ul>
+            {% for guest in event.guests_may_attend %}
+                {% if guest.name %}
+                    <li>
+                        {{ guest.name }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% if event.guests_no_rsvp.count %}
+        <h3>Have Not RSVPed Yet ({{ event.guests_no_rsvp.count }} guest{{ event.guests_no_rsvp.count|pluralize }})</h3>
+    
+        <ul>
+            {% for guest in event.guests_no_rsvp %}
+                {% if guest.name %}
+                    <li>
+                        {{ guest.name }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
