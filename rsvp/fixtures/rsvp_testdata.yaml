@@ -14,7 +14,7 @@
       event: 1
       email: guest1@example.com
       name: Guest1
-      attending_status: yes
+      attending_status: 'yes'
       number_of_guests: 0
 
 - model: rsvp.Guest
