@@ -28,7 +28,6 @@ u'Come to my test event!'
 >>> mail.outbox[0].body
 u'We will have fun.\\n\\nTo RVSP to this invite, please visit http://example.com/rsvp/event/a-test-event/.'
 
-
 # Re-empty the bin.
 >>> mail.outbox = []
 

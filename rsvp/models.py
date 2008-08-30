@@ -69,7 +69,7 @@ class Event(models.Model):
             t = loader.get_template('rsvp/event_email.txt')
             c = Context({
                 'event': self,
-                'site': Site.objects.get_current()
+                'site': Site.objects.get_current(),
             })
             message = t.render(c)
             mass_mail_data.append([self.email_subject, message, from_email, [guest.email]])
