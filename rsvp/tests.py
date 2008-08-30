@@ -11,6 +11,27 @@ Installed 4 object(s) from 1 fixture(s)
 >>> from django.core.urlresolvers import reverse
 >>> from rsvp.models import Event, Guest
 
+# Test sending the e-mails.
+>>> mail.outbox
+[]
+>>> event = Event.objects.get(pk=1)
+>>> event
+<Event: A Test Event>
+>>> event.send_guest_emails()
+2
+>>> len(mail.outbox)
+2
+>>> mail.outbox[0].to
+[u'guest2@example.com']
+>>> mail.outbox[0].subject
+u'Come to my test event!'
+>>> mail.outbox[0].body
+u'We will have fun.\\n\\nTo RVSP to this invite, please visit http://example.com/rsvp/event/a-test-event/.'
+
+
+# Re-empty the bin.
+>>> mail.outbox = []
+
 >>> r = c.get(reverse('rsvp_event_view', args=['a-test-event']))
 >>> r.status_code
 200

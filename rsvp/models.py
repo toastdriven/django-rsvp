@@ -4,6 +4,7 @@ from django.db.models import permalink
 from django.core.mail import send_mass_mail
 from django.template import loader, Context
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 
 ATTENDING_CHOICES = (
@@ -64,16 +65,17 @@ class Event(models.Model):
         mass_mail_data = []
         from_email = getattr(settings, 'RSVP_FROM_EMAIL', '')
         
-        for guest in self.guests_no_rsvp:
+        for guest in self.guests_no_rsvp():
             t = loader.get_template('rsvp/event_email.txt')
             c = Context({
                 'event': self,
+                'site': Site.objects.get_current()
             })
             message = t.render(c)
-            mass_mail_data.append([self.subject, message, from_email, [guest.email]])
+            mass_mail_data.append([self.email_subject, message, from_email, [guest.email]])
         
         send_mass_mail(mass_mail_data, fail_silently=True)
-        return self.guests_no_rsvp.count
+        return self.guests_no_rsvp().count()
 
 
 class Guest(models.Model):
