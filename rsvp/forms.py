@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from rsvp.models import ATTENDING_CHOICES, Guest
 
 
@@ -12,13 +13,21 @@ class RSVPForm(forms.Form):
     number_of_guests = forms.IntegerField(initial=0)
     comment = forms.CharField(max_length=255, required=False, widget=forms.Textarea)
     
+    def __init__(self, *args, **kwargs):
+        if 'guest_class' in kwargs:
+            self.guest_class = kwargs['guest_class']
+            del(kwargs['guest_class'])
+        else:
+            self.guest_class = Guest
+        super(RSVPForm, self).__init__(*args, **kwargs)
+    
     def clean_email(self):
         try:
-            guest = Guest.objects.get(email=self.cleaned_data['email'])
-        except Guest.DoesNotExist:
+            guest = self.guest_class._default_manager.get(email=self.cleaned_data['email'])
+        except ObjectDoesNotExist:
             raise forms.ValidationError, 'That e-mail is not on the guest list.'
         
-        if guest.attending_status != 'no_rsvp':
+        if hasattr(guest, 'attending_status') and guest.attending_status != 'no_rsvp':
             raise forms.ValidationError, 'You have already provided RSVP information.'
         
         return self.cleaned_data['email']
@@ -29,7 +38,7 @@ class RSVPForm(forms.Form):
         return self.cleaned_data['number_of_guests']
         
     def save(self):
-        guest = Guest.objects.get(email=self.cleaned_data['email'])
+        guest = self.guest_class._default_manager.get(email=self.cleaned_data['email'])
         
         if self.cleaned_data['name']:
             guest.name = self.cleaned_data['name']
