@@ -2,10 +2,10 @@ from django.contrib import admin
 from rsvp.models import Event, Guest
 
 
-# TODO: Fix the inline form to remove metadata fields.
-# class GuestInline(admin.TabularInline):
-#     model = Guest
-#     extra = 3
+class GuestInline(admin.TabularInline):
+    model = Guest
+    extra = 3
+    fields = ('email', 'name', 'attending_status', 'number_of_guests')
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -22,7 +22,7 @@ class EventAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         })
     )
-    # inlines = [GuestInline]
+    inlines = [GuestInline]
     list_display = ('title', 'date_of_event')
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'description', 'hosted_by')

@@ -10,7 +10,7 @@ response if they will be attending or not.
 Requirements
 ============
 
-```django-rsvp``` requires Python 2.3 or better and Django 1.0-beta_1 or better.
+```django-rsvp``` requires Python 2.3 or better and Django 1.0 or better.
 The only potential dependency within Django is that ```django.contrib.sites``` 
 is in ```INSTALLED_APPS``` in order to make the included e-mail template work.
 
