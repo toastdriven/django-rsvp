@@ -1,10 +1,9 @@
-import datetime
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from rsvp.models import Event, Guest
+from rsvp.models import Event
 from rsvp.forms import RSVPForm
 
 
