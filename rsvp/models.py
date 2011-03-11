@@ -35,9 +35,9 @@ class Event(models.Model):
     def __unicode__(self):
         return self.title
     
-    def save(self):
+    def save(self, *args, **kwargs):
         self.updated = datetime.datetime.now()
-        super(Event, self).save()
+        super(Event, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
         return ('rsvp_event_view', [self.slug])
@@ -91,6 +91,6 @@ class Guest(models.Model):
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.title, self.email, self.attending_status)
     
-    def save(self):
+    def save(self, *args, **kwargs):
         self.updated = datetime.datetime.now()
-        super(Guest, self).save()
+        super(Guest, self).save(*args, **kwargs)
