@@ -7,7 +7,7 @@
     
     <p>
         You've been placed on the 
-        <a href="{% url rsvp_event_view event.slug %}">"{{ guest.get_attending_status_display }}" 
+        <a href="{% url "rsvp_event_view" event.slug %}">"{{ guest.get_attending_status_display }}" 
         list</a>.
     </p>
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext as _
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from rsvp.models import ATTENDING_CHOICES, Guest
@@ -25,16 +26,16 @@ class RSVPForm(forms.Form):
         try:
             guest = self.guest_class._default_manager.get(email=self.cleaned_data['email'])
         except ObjectDoesNotExist:
-            raise forms.ValidationError, 'That e-mail is not on the guest list.'
+            raise forms.ValidationError(_('That e-mail is not on the guest list.'), code='not_on_list')
         
         if hasattr(guest, 'attending_status') and guest.attending_status != 'no_rsvp':
-            raise forms.ValidationError, 'You have already provided RSVP information.'
+            raise forms.ValidationError(_('You have already provided RSVP information.'), code='already_rsvp')
         
         return self.cleaned_data['email']
     
     def clean_number_of_guests(self):
         if self.cleaned_data['number_of_guests'] < 0:
-            raise forms.ValidationError, "The number of guests you're bringing can not be negative."
+            raise forms.ValidationError(_("The number of guests you're bringing can not be negative."), code='negative_guests')
         return self.cleaned_data['number_of_guests']
         
     def save(self):

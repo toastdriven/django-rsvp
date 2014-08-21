@@ -28,5 +28,5 @@ Installation
 #. Set the ``RSVP_FROM_EMAIL`` setting to an e-mail address you'd like
    invites to be sent from.
 #. Run ``./manage.py syncdb``.
-#. Add ``(r'^rsvp/', include('rsvpproject.rsvp.urls')),`` to your
+#. Add ``(r'^rsvp/', include('rsvp.urls')),`` to your
    ``urls.py``.

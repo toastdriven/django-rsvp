@@ -91,6 +91,9 @@ class Guest(models.Model):
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.title, self.email, self.attending_status)
     
+    class Meta:
+        unique_together = ('event', 'email')
+
     def save(self, *args, **kwargs):
         self.updated = datetime.datetime.now()
         super(Guest, self).save(*args, **kwargs)
